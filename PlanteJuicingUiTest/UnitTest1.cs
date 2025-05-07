@@ -30,26 +30,23 @@ namespace PlanteJuicingUITest
         [TestMethod]
         public void MoistureAppearsTest()
         {
-            string url = "http://localhost:5500/index.html"; // ? Ret til din serversti
+            string url = "http://localhost:5500/index.html"; // ? Ret til din lokale sti/server
             _driver.Navigate().GoToUrl(url);
+            
+            Assert.IsTrue(_driver.Title.Contains("PlanteJuicing"));
 
-            // Check page title (optional, but can stay)
-            Assert.AreEqual("Jordfugtighed", _driver.Title);
+            
 
-            // Find og klik på knappen
-            IWebElement button = _driver.FindElement(By.TagName("MoistureBut"));
-            button.Click();
+            IWebElement moistureMessage = _driver.FindElement(By.Id("moistureMessage"));
+            Assert.IsTrue(moistureMessage.Text.Contains("Du skal vande din plante!") || moistureMessage.Text.Contains("Din plante har det fint!"));
 
-            // Vent på at fugtigheds-værdien vises i <h2>
-            WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
-            IWebElement moistureElement = wait.Until(d =>
-                d.FindElement(By.TagName("h2"))
-            );
+            IWebElement tempMessage = _driver.FindElement(By.Id("tempMessage"));
+            Assert.IsTrue(tempMessage.Text.Contains("Der er for koldt") || tempMessage.Text.Contains("Der er for varmt") || tempMessage.Text.Contains("Der er helt tilpas"));
 
-            string text = moistureElement.Text.Trim();
+            IWebElement waterLevelMessage = _driver.FindElement(By.Id("waterLevelMessage"));
+            Assert.IsTrue(waterLevelMessage.Text.Contains("Fuld op med vand") || waterLevelMessage.Text.Contains("Der er nok vand"));
 
-            // Tjek at værdien slutter med %
-            Assert.IsTrue(text.EndsWith("%"), "Jordfugtigheds-værdi blev ikke vist korrekt");
+
         }
 
     }
