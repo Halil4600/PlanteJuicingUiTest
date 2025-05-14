@@ -35,7 +35,7 @@ namespace PlanteJuicingUITest
             string url = "https://plantejuicing-a9hfcaf3fhgccdgw.canadacentral-01.azurewebsites.net/"; // ? Ret til din lokale sti/server
             _driver.Navigate().GoToUrl(url);
 
-            Assert.IsTrue(_driver.Title.Contains("PlanteJuicing"));
+            Assert.IsTrue(_driver.Title.Contains("Plante Juicing"));
 
 
 
@@ -69,6 +69,10 @@ namespace PlanteJuicingUITest
             var firstAddButton = wait.Until(d => d.FindElement(By.CssSelector(".add-button")));
             firstAddButton.Click();
 
+            var triggerButton = _driver.FindElement(By.Id("triggerPopup")); // Antager, at knappen har id="triggerPopup"
+            triggerButton.Click();
+
+            // Test af "Back" knappen
             IWebElement BackButton = _driver.FindElement(By.Id("Back"));
             BackButton.Click();
             Assert.AreEqual("PlanteJuicing", _driver.Title);
@@ -79,6 +83,17 @@ namespace PlanteJuicingUITest
             IWebElement newestRow = rows.Last();
             string PlantName = newestRow.FindElement(By.XPath(".//td[2]")).Text;
             
+            // Test af "Detaljer" knappen
+            IWebElement DetaljeButton = _driver.FindElement(By.Id("Detaljer"));
+            DetaljeButton.Click();
+            Assert.AreEqual("Plante Detaljer", _driver.Title);
+
+            // Test af "Slet" knappen
+            IWebElement DeleteButton = _driver.FindElement(By.Id("Slet"));
+            DeleteButton.Click();
+            Assert.AreEqual("Plante Juicing", _driver.Title);
+
+
         }
 
     }
