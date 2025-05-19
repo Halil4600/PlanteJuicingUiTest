@@ -97,7 +97,6 @@ namespace PlanteJuicingUITest
             wait.Until(d => _driver.Title.Contains("Plante Juicing"));
             Assert.AreEqual("Plante Juicing", _driver.Title);
 
-
             // Test af "Slet" knappen
             var buttons3 = _driver.FindElements(By.ClassName("delete-button"));
             buttons3[0].Click();
@@ -147,7 +146,48 @@ namespace PlanteJuicingUITest
             IWebElement currentPageInfo3 = wait.Until(d => d.FindElement(By.Id("currentPageInfo")));
             Assert.IsTrue(currentPageInfo3.Text.Contains("Side 1 af 337"));
 
+            // Test af "Tilføj til mine planter" knap
+            wait.Until(d => d.FindElement(By.Id("plant-list")));
+            IWebElement plantLink = _driver.FindElement(By.LinkText("European Silver Fir"));
+            plantLink.Click();
+            IJavaScriptExecutor js = (IJavaScriptExecutor)_driver;
+            js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight);");
+            var buttons5 = _driver.FindElements(By.ClassName("succes-button"));
+            buttons5[1].Click();
+            wait.Until(d => _driver.SwitchTo().Alert());
+            IAlert alert4 = _driver.SwitchTo().Alert();
+            alert4.Accept();
+            js.ExecuteScript("window.scrollTo(0,0);");
+            var buttons6 = _driver.FindElement(By.Id("BackToGreenhouse"));
+            buttons6.Click();
+            wait.Until(d => _driver.Title.Contains("Plante Juicing"));
 
+            //// Test af "Tilbage til planteguide" knap inde på en plantes detaljer
+            //var buttons4 = _driver.FindElements(By.ClassName("back-button"));
+            //buttons4[1].Click();
+            //wait.Until(d => _driver.Title.Contains("PlanteGuide"));
+            //Assert.AreEqual("PlanteGuide", _driver.Title);
+
+            //// forrige kode 
+            //wait.Until(d => d.FindElement(By.Id("plant-list")));
+            //IWebElement plantLink = _driver.FindElement(By.LinkText("European Silver Fir"));
+            //plantLink.Click();
+            //wait.Until(d => _driver.Title.Contains("Plante Detaljer"));
+            //Assert.AreEqual("Plante Detaljer", _driver.Title);
+            //var backToPlanter = _driver.FindElement(By.Id("backToPlanter"));
+            //backToPlanter.Click();
+            //wait.Until(d => _driver.Title.Contains("PlanteGuide"));
+
+
+
+            //// Test af "Tilbage til drivhus" knap inde på en plantes detaljer
+            //var plantList4 = wait.Until(d => d.FindElement(By.Id("plant-list")));
+            //firstPlant.Click();
+            //wait.Until(d => _driver.Title.Contains("Plante Detaljer"));
+            //Assert.AreEqual("Plante Detaljer", _driver.Title);
+            //var backToGreenhouse = _driver.FindElement(By.Id("BackToGreenhouse"));
+            //backToGreenhouse.Click();
+            //wait.Until(d => _driver.Title.Contains("Plante Juicing"));
         }
 
     }
